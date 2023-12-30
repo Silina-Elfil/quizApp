@@ -27,7 +27,7 @@ class ScorePage extends StatelessWidget {
       stars = 0;
     }
 
-    if (percentage >= 0.25) {
+    if (percentage > 0.25) {
       resultImage = 'assets/winner.png';
     } else {
       resultImage = 'assets/looser.png';

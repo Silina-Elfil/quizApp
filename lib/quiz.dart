@@ -39,6 +39,7 @@ class Quiz extends StatefulWidget {
 
 class _QuizPageState extends State<Quiz> {
   List<Question> questions = [];
+  List<Question> allquestions = [];
   int currentQuestionIndex = 0;
   int score = 0;
   int selectedButtonIndex = -1;
@@ -52,11 +53,11 @@ class _QuizPageState extends State<Quiz> {
   Future<void> fetchQuestions() async {
     final url = Uri.https(_baseURL, 'getQuestions.php');
     final response = await http.get(url);
-
+//putting all the question in one list then shuffle then then take the fist 10
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
       for (var question in jsonResponse) {
-        questions.add(Question(
+        allquestions.add(Question(
           int.parse(question['id']),
           question['question'],
           question['answer1'],
@@ -64,6 +65,10 @@ class _QuizPageState extends State<Quiz> {
           question['correct_answer'],
         ));
       }
+      allquestions.shuffle();
+
+      questions = allquestions.take(10).toList();
+
       setState(() {});
     } else {
       print('Failed to load questions');
@@ -131,23 +136,32 @@ class _QuizPageState extends State<Quiz> {
                 top: 0,
                 right: 0,
                 child: Container(
-                  padding: EdgeInsets.all(10),
-                  color: Colors.blue,
-                  child: Text(
-                    'Score: $score',
-                    style: TextStyle(fontSize: 16, color: Colors.white),
+                  padding: EdgeInsets.all(15),
+                  decoration: BoxDecoration(
+                    color: Colors.blueAccent,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Score: $score',
+                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      ),
+                    ],
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 60),
               SizedBox(
                 width: screenSize.width*0.8,
                 //height: screenSize.height*0.3,
                 child: Container(
                   padding: EdgeInsets.all(30),
                   decoration: BoxDecoration(
-                    color: Colors.blueAccent,
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: Colors.blueAccent),
                   ),
                   child: Column(
                     children: [
@@ -155,7 +169,7 @@ class _QuizPageState extends State<Quiz> {
                         'Question ${currentQuestionIndex + 1}:',
                         style: const TextStyle(
                             fontSize: 25,
-                            color: Colors.white,
+                            color: Colors.blueAccent,
                           fontWeight: FontWeight.bold
                         ),
                       ),
@@ -165,7 +179,7 @@ class _QuizPageState extends State<Quiz> {
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                             fontSize: 20,
-                            color: Colors.white),
+                            color: Colors.blueAccent),
                       ),
                       const SizedBox(height: 30),
                     ],
@@ -184,11 +198,10 @@ class _QuizPageState extends State<Quiz> {
                       : Colors.red
                       : null,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)
+                    borderRadius: BorderRadius.circular(15)
                   ),
                   minimumSize: Size(
-                      screenSize.width*0.8,
-                      screenSize.height*0.5)
+                      screenSize.width*0.8, 50)
                 ),
                 child: Text(questions[currentQuestionIndex].answer1),
               ),
@@ -204,17 +217,23 @@ class _QuizPageState extends State<Quiz> {
                       : Colors.red
                       : null,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)
+                        borderRadius: BorderRadius.circular(15)
                     ),
                     minimumSize: Size(
-                        screenSize.width*0.8,
-                        screenSize.height*0.5)
+                        screenSize.width*0.8, 50)
                 ),
                 child: Text(questions[currentQuestionIndex].answer2),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 50),
               ElevatedButton(
                 onPressed: () => nextQuestion(),
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15)
+                  ),
+                  minimumSize: Size(
+                  screenSize.width*0.4, 50)
+                ),
                 child: Text('Next'),
               ),
             ],

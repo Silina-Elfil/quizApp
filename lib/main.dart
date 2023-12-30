@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'quiz.dart';
+import 'adminpage.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -68,6 +69,31 @@ class HomePage extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                         fontSize: 18,
                         color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => AdminPage()),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(double.infinity, 60),
+                      shape: RoundedRectangleBorder(
+                        side: const BorderSide(color: Colors.blueAccent),
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      backgroundColor: Colors.white,
+                    ),
+                    child: const Text(
+                      "ADMIN",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 18,
+                        color: Colors.blueAccent,
                       ),
                     ),
                   ),
