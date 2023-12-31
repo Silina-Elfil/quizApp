@@ -12,22 +12,22 @@ class ScorePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    double percentage = (score / totalQuestions) * 100;
+    //double percentage = (score / totalQuestions) * 100;
     int stars = 0;
     String resultImage;
     String starsImage;
 
-    if (percentage >= 75) {
+    if (score >= 8) {
       stars = 3;
-    } else if (percentage >= 50) {
+    } else if (score >= 5) {
       stars = 2;
-    } else if (percentage >= 25) {
+    } else if (score >= 2) {
       stars = 1;
     } else {
       stars = 0;
     }
 
-    if (percentage > 0.25) {
+    if (score >= 2) {
       resultImage = 'assets/winner.png';
     } else {
       resultImage = 'assets/looser.png';
@@ -83,7 +83,7 @@ class ScorePage extends StatelessWidget {
                   ),
                 );
               },
-              child: Text('Play Again'),
+              child: const Text('Play Again'),
             ),
           ],
         ),

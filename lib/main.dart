@@ -15,7 +15,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      body: Center(
         child: Container(
           width: double.infinity,
           height: MediaQuery.of(context).size.height,
@@ -77,7 +77,7 @@ class HomePage extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => AdminPage()),
+                        MaterialPageRoute(builder: (context) => DashboardPage()),
                       );
                     },
                     style: ElevatedButton.styleFrom(
