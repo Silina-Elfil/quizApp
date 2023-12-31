@@ -71,7 +71,11 @@ class _QuizPageState extends State<Quiz> {
 
       setState(() {});
     } else {
-      print('Failed to load questions');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Failed to load questions'),
+        ),
+      );
     }
   }
 
@@ -93,7 +97,7 @@ class _QuizPageState extends State<Quiz> {
     if (selectedButtonIndex == -1) {
       // No answer selected, show a message
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('You should answer the question'),
         ),
       );
