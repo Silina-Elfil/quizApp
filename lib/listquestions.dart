@@ -22,25 +22,6 @@ class Question {
       json['correct_answer'],
     );
   }
-
-  Future<void> deleteQuestion() async {
-    final url = Uri.https(_baseURL, 'deleteQuestion.php', {'id': id.toString()});
-    final response = await http.post(url);
-
-    if (response.statusCode == 200) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Question deleted successfully'),
-        ),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Failed to delete question'),
-        ),
-      );
-    }
-  }
 }
 
 class MyApp extends StatelessWidget {
@@ -60,7 +41,6 @@ class QuestionList extends StatefulWidget {
   @override
   _QuestionListState createState() => _QuestionListState();
 }
-
 class _QuestionListState extends State<QuestionList> {
   List<Question> questions = [];
 
@@ -86,6 +66,7 @@ class _QuestionListState extends State<QuestionList> {
           content: Text('Failed to load questions'),
         ),
       );
+      print('Failed to load questions');
     }
   }
 
@@ -98,32 +79,21 @@ class _QuestionListState extends State<QuestionList> {
       body: questions.isEmpty
           ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
-              itemCount: questions.length,
-              itemBuilder: (context, index) {
-                final question = questions[index];
-                return ListTile(
-                  title: Text('ID: ${question.id}'),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Question: ${question.question}'),
-                      Text('Correct Answer: ${question.correctAnswer}'),
-                    ],
-                  ),
-                  trailing: ElevatedButton(
-                    onPressed: () async {
-                      // Call the delete function when the button is pressed
-                      await question.deleteQuestion();
-                      // Remove the question from the list
-                      setState(() {
-                        questions.removeAt(index);
-                      });
-                    },
-                    child: const Icon(Icons.delete),
-                  ),
-                );
-              },
+        itemCount: questions.length,
+        itemBuilder: (context, index) {
+          final question = questions[index];
+          return ListTile(
+            title: Text('ID: ${question.id}'),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Question: ${question.question}'),
+                Text('Correct Answer: ${question.correctAnswer}'),
+              ],
             ),
+          );
+        },
+      ),
     );
   }
 }
